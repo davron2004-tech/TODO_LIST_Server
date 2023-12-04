@@ -1,7 +1,7 @@
 package frame;
 
-import controller.CRUController;
-import Networking.Networking;
+import Networking.Client;
+import Networking.Server;
 import dao.Task;
 import dao.TaskDAO;
 import dao.TaskTableModel;
@@ -21,18 +21,19 @@ public class TodoListGUI extends JFrame{
     private final JButton addButton;
     private final JButton updateButton;
     private final JButton deleteButton;
-    private Thread thread;
-
+    private Thread serverThread;
+    private Client client;
     public TodoListGUI() {
-        thread = new Thread(new Networking(this));
-        thread.start();
+        serverThread = new Thread(new Server(this));
+        serverThread.start();
+        client = new Client(this);
         try {
             taskDAO = new TaskDAO();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        setTitle("To-Do List");
+        setTitle("To-Do List-1");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -105,6 +106,7 @@ public class TodoListGUI extends JFrame{
             for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
                 table.getColumnModel().getColumn(columnIndex).setCellRenderer(centerRenderer);
             }
+            client.sendMessage();
 
 
         } catch (Exception e) {

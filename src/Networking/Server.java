@@ -6,15 +6,14 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
-import java.util.Scanner;
 
-public class Networking implements Runnable{
+public class Server implements Runnable{
     ServerSocket serverSocket;
     Socket socket;
     BufferedReader in;
     BufferedWriter out;
     TodoListGUI app;
-    public Networking(TodoListGUI app){
+    public Server(TodoListGUI app){
         this.app = app;
     }
 
